@@ -16,7 +16,7 @@
 $bg-c1-primary: rgb(42, 115, 221);
 $bg-c1-secondary: rgb(245, 249, 254);
 $bg-c2-secondary: #fff;
-$bg-none: rgba(0,0,0,0);
+$bg-none: rgba(0, 0, 0, 0);
 //text-color:
 $text-c1-primary: rgb(42, 115, 221);
 $text-c1-dark: #000;
@@ -37,6 +37,15 @@ $text-semibold: 600;
 $text-bold: 700;
 
 
+//Màu:
+$arr-color-red: ("100":"#ff0099","200":"#ff0066","300":"#ff0033","400":"#ff0000");
+
+@each $color-number,$color-value in $arr-color-red {
+    .color-red-#{$color-number} {
+        color: $color-value;
+    }
+}
+
 //mixin: hàm trong scss
 //mixin cho phép định nghĩa các giá trị mặc định cho tham số
 @mixin text ($fs: $text-base, $fw: $text-regular, $c: $text-c1-dark) {
@@ -45,20 +54,23 @@ $text-bold: 700;
     color: $c;
 }
 
-@mixin button ($fz, $fw, $c, $bg, $pd, $bd, $br, $bg-hover, $c-hover) {
-    // font-size: fz;
+@mixin button ($fs, $fw, $c, $bg, $pd, $bd, $br, $bg-hover, $c-hover) {
+    // font-size: fs;
     // font-weight: $fw;
     // color: $c;
-    @include text($fs,$fw,$c);
+    @include text($fs, $fw, $c);
     background: $bg;
     padding: $pd;
-    border:  $bd;
+    border: $bd;
     border-radius: $br;
+
     &:hover {
         background: $bg-hover;
         color: $c-hover;
     }
 }
+
+
 
 //nesting css:
 .header {
@@ -144,21 +156,21 @@ $text-bold: 700;
             }
 
             p {
-                @include text($text-base,$text-light,$text-c1-dark);
+                @include text($text-base, $text-light, $text-c1-dark);
                 margin-bottom: 15px;
             }
 
-            // .btn-info {
-            //     box-shadow: 0 3px 6px rgb(201 216 244);
-            //     cursor: pointer;
-            //     @include button($text-base, $text-semibold , $text-c1-dark , $bg-none , 10px 30px , 2px solid rgb(42,115,221) , 5px,  $bg-c1-primary, $text-c1-light);
-            // }
+            .btn-info {
+                box-shadow: 0 3px 6px rgb(201 216 244);
+                cursor: pointer;
+                @include button($text-base, $text-semibold , $text-c1-dark , $bg-none , 10px 30px, 2px solid rgb(42, 115, 221), 5px, $bg-c1-primary, $text-c1-light);
+            }
 
-            // .btn-shop {
-            //     box-shadow: 0 3px 6px rgb(201 216 244);
-            //     cursor: pointer;
-            //     @include button($text-base, $text-semibold , $bg-c2-secondary ,   $bg-c1-primary , 10px 30px , 2px solid rgb(42,115,221) , 5px, $bg-none, $text-c1-primary);
-            // }
+            .btn-shop {
+                box-shadow: 0 3px 6px rgb(201 216 244);
+                cursor: pointer;
+                @include button($text-base, $text-semibold , $bg-c2-secondary , $bg-c1-primary , 10px 30px, 2px solid rgb(42, 115, 221), 5px, $bg-none, $text-c1-primary);
+            }
         }
 
         .thumbnail {
@@ -169,8 +181,92 @@ $text-bold: 700;
     }
 }
 
+.product-list {
+    .container {
+        overflow: hidden;
+        .title {
+            @include text($text-3xl, $text-semibold, $text-c1-dark);
+            text-align: center;
+            padding: 15px 0;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            
+            .col {
+                @media only screen and (max-width: 768px) {
+                    
+                }
+
+                width: calc(100%/3);
+                padding: 0 15px;
+                /*
+                $i: tên biến chạy
+                from 0 --> <6 dừng
+                */
+                @for $i from 0 to 6 {
+                    .item-#{$i+1}{
+                        animation: fadeInDown 0.5s * ($i+1);
+                    }  
+                }
+
+                .card {
+                    box-shadow: #e2ebfc 6px 6px 12px, #fff -6px -6px 12px;
+                    padding: 15px;
+                    img {
+                        width: 100%;
+                    }
+                    .card-body {
+                        display: flex;
+                        justify-content: space-between;
+                        flex-wrap: wrap;
+                        align-items: center;
+                        .product-name {
+                            @include text($text-xl, $text-semibold, $text-c1-dark);
+                            width: calc(100%/2);
+                        }
+                        .product-price {
+                            @include text($text-base, $text-semibold, $text-c1-dark);
+                            width: calc(100%/2);
+                        }
+                        .product-desc {
+                            font-style: italic;
+                            @include text($text-light, $text-light, $text-c1-dark);
+                            width: calc(100%/2);
+                        }
+                        .product-rating {
+                            width: calc(100%/2);
+                            i {
+                                color: rgba(240, 188, 66, 0.83);
+                            }
+                        }
+                        .btn-buynow {
+                            @include button($text-base,$text-semibold ,$text-c1-primary ,$bg-none ,15px ,none ,5px , $bg-c1-primary, $text-c1-light);
+                            margin-top: 10px;
+                            box-shadow: #e2ebfc 6px 6px 12px, #fff -6px -6px 12px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 
 
+
+
+@keyframes fadeInDown {
+    0%{
+        transform: translateY(-200px);
+        opacity: 0;
+    }
+
+    100%{
+        transform: translateY(0px);
+        opacity: 1;
+    }
+}
 
 // .header .container {
 //     display: flex;
