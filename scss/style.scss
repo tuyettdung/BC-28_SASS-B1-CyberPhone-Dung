@@ -1,0 +1,178 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+//Khai báo biến:
+//bg:
+$bg-c1-primary: rgb(42, 115, 221);
+$bg-c1-secondary: rgb(245, 249, 254);
+$bg-c2-secondary: #fff;
+$bg-none: rgba(0,0,0,0);
+//text-color:
+$text-c1-primary: rgb(42, 115, 221);
+$text-c1-dark: #000;
+$text-c1-light: #fff;
+//text-size
+$text-xs: 10px;
+$text-base: 16px;
+$text-xl: 18px;
+$text-2xl: 20px;
+$text-3xl: 30px;
+$text-4xl: 40px;
+$text-5xl: 50px;
+$text-6xl: 60px;
+//font-weght:
+$text-light: 300;
+$text-regular: 400;
+$text-semibold: 600;
+$text-bold: 700;
+
+
+//mixin: hàm trong scss
+//mixin cho phép định nghĩa các giá trị mặc định cho tham số
+@mixin text ($fs: $text-base, $fw: $text-regular, $c: $text-c1-dark) {
+    font-size: $fs;
+    font-weight: $fw;
+    color: $c;
+}
+
+@mixin button ($fz, $fw, $c, $bg, $pd, $bd, $br, $bg-hover, $c-hover) {
+    // font-size: fz;
+    // font-weight: $fw;
+    // color: $c;
+    @include text($fs,$fw,$c);
+    background: $bg;
+    padding: $pd;
+    border:  $bd;
+    border-radius: $br;
+    &:hover {
+        background: $bg-hover;
+        color: $c-hover;
+    }
+}
+
+//nesting css:
+.header {
+    background-color: $bg-c1-secondary;
+
+    .container {
+        display: flex;
+        justify-content: space-between;
+        height: 80px;
+        align-items: center;
+
+        .logo {
+            a {
+                text-decoration: none;
+                // font-size: $text-3xl;
+                // font-weight: $text-semibold;
+                // color: $text-c1-primary;
+                @include text($text-3xl, $text-semibold, $text-c1-primary )
+            }
+
+        }
+
+        .navbar {
+            a {
+                text-decoration: none;
+                margin-left: 15px;
+                // font-size: $text-base;
+                // font-weight: $text-regular;
+                // color: $text-c1-dark;
+                @include text();
+                position: relative;
+
+                &::before {
+                    position: absolute;
+                    bottom: -3px;
+                    left: 0;
+                    content: "";
+                    width: 100%;
+                    height: 2px;
+                    background-color: $text-c1-primary ;
+                    transform: scale(0, 1);
+                    transition: transform 0.3s;
+                }
+
+                &:hover {
+                    color: $text-c1-primary ;
+
+                    &::before {
+                        transform: scale(1, 1);
+
+                    }
+                }
+            }
+        }
+    }
+}
+
+.carousel {
+    height: 800px;
+    background: url(../img/image/product-header-bg.jpg);
+    background-size: cover;
+    background-position: right bottom;
+    box-shadow: -1px -4px 5px 0px rgba(207, 229, 242, 1);
+    -webkit-box-shadow: -1px -4px 5px 0px rgba(207, 229, 242, 1);
+    -moz-box-shadow: -1px -4px 5px 0px rgba(207, 229, 242, 1);
+
+    .container {
+        height: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+
+        .detail {
+            margin-top: 15px;
+
+            h1 {
+                @include text($text-6xl, $text-bold, $text-c1-primary);
+
+            }
+
+            .desc-title {
+                @include text($text-xl, $text-semibold, $text-c1-dark);
+            }
+
+            p {
+                @include text($text-base,$text-light,$text-c1-dark);
+                margin-bottom: 15px;
+            }
+
+            // .btn-info {
+            //     box-shadow: 0 3px 6px rgb(201 216 244);
+            //     cursor: pointer;
+            //     @include button($text-base, $text-semibold , $text-c1-dark , $bg-none , 10px 30px , 2px solid rgb(42,115,221) , 5px,  $bg-c1-primary, $text-c1-light);
+            // }
+
+            // .btn-shop {
+            //     box-shadow: 0 3px 6px rgb(201 216 244);
+            //     cursor: pointer;
+            //     @include button($text-base, $text-semibold , $bg-c2-secondary ,   $bg-c1-primary , 10px 30px , 2px solid rgb(42,115,221) , 5px, $bg-none, $text-c1-primary);
+            // }
+        }
+
+        .thumbnail {
+            img {
+                width: 100%;
+            }
+        }
+    }
+}
+
+
+
+
+// .header .container {
+//     display: flex;
+//     justify-content: space-between;
+// }
